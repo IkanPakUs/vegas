@@ -277,7 +277,7 @@ module Vegas
           handler = nil
           @app.server.each do |server|
             begin
-              handler = Rack::Handler.get(server)
+              handler = Rackup::Handler.get(server)
               break
             rescue LoadError, NameError => e
               next
@@ -287,12 +287,12 @@ module Vegas
 
         # :server might be set explicitly to a single option like "mongrel"
         else
-          Rack::Handler.get(@app.server)
+          Rackup::Handler.get(@app.server)
         end
 
       # If all else fails, we'll use Thin
       else
-        JRUBY ? Rack::Handler::WEBrick : Rack::Handler::Thin
+        JRUBY ? Rackup::Handler::WEBrick : Rackup::Handler::Thin
       end
     end
 
@@ -315,7 +315,7 @@ module Vegas
         }
 
         opts.on("-s", "--server SERVER", "serve using SERVER (thin/mongrel/webrick)") { |s|
-          @rack_handler = Rack::Handler.get(s)
+          @rack_handler = Rackup::Handler.get(s)
         }
 
         opts.on("-o", "--host HOST", "listen on HOST (default: #{HOST})") { |host|

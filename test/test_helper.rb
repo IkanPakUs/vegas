@@ -21,7 +21,7 @@ module TestHelper
   def vegas(*args, &block)
     Vegas::Runner.any_instance.stubs(:daemonize!).once
 
-    Vegas::JRUBY ? Rack::Handler::WEBrick.stubs(:run).once : Rack::Handler::Thin.stubs(:run).once
+    Vegas::JRUBY ? Rackup::Handler::WEBrick.stubs(:run).once : Rackup::Handler::Thin.stubs(:run).once
 
     @vegas = Vegas::Runner.new(*args, &block)
   end

@@ -116,12 +116,12 @@ describe 'Vegas::Runner' do
       before do
         TestApp1.set :server, "webrick"
         Vegas::Runner.any_instance.expects(:system).once
-        Rack::Handler::WEBrick.stubs(:run)
+        Rackup::Handler::WEBrick.stubs(:run)
         vegas(TestApp1, 'vegas_test_app_1', {:skip_launch => true, :sessions => true}, ["route","--debug"])
       end
 
       it 'sets the rack handler automaticaly' do
-        @vegas.rack_handler.should == Rack::Handler::WEBrick
+        @vegas.rack_handler.should == Rackup::Handler::WEBrick
       end
     end
 
@@ -132,9 +132,9 @@ describe 'Vegas::Runner' do
 
       it "sets default rack handler to thin when in ruby and WEBrick when in jruby" do
         if Vegas::JRUBY
-          @vegas.rack_handler.should == Rack::Handler::WEBrick
+          @vegas.rack_handler.should == Rackup::Handler::WEBrick
         else
-          @vegas.rack_handler.should == Rack::Handler::Thin
+          @vegas.rack_handler.should == Rackup::Handler::Thin
         end
       end
     end
